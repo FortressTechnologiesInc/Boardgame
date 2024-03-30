@@ -56,11 +56,11 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build -t adijaiswal/boardgame:latest .
+        docker build -t limkel/boardgame:2.0 .
 
     - name: Trivy Image Scan
       run: |
-        trivy image --format table -o trivy-image-report.html adijaiswal/board:latest
+        trivy image --format table -o trivy-image-report.html limkel/board:2.0
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3
@@ -70,14 +70,14 @@ jobs:
 
     - name: Push Docker Image
       run: |
-          docker push adijaiswal/boardgame:latest
+          docker push limkel/boardgame:2.0
           
     - name: Kubectl Action
       uses: tale/kubectl-action@v1
       with:
         base64-kube-config: ${{ secrets.KUBE_CONFIG }}
     - run: |
-          kubectl apply -f deployment-service.yaml -n webapps
-          kubectl get svc -n webapps
+          kubectl apply -f deployment-service.yaml -n mygithub
+          kubectl get svc -n mygithub
 
     
